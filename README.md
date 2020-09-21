@@ -11,7 +11,7 @@ Give some code examples to understand the basic knowledge and usage of OCaml.
 
 
 # Course Notes
-Keep notes of each CSI3120 lecture given by Prof. Amy Felty @ University of Ottawa.
+The notes of each CSI3120 lecture given by Prof. Amy Felty @ University of Ottawa.
 
 
 # Official documents
