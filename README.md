@@ -6,7 +6,7 @@ OCaml related content: environmental setup, course notes, and some example code.
 Refer to Isntall OCaml on Linux and run with VS Code file [click here](https://github.com/msha096/OCaml-Stuff/blob/master/Install%20OCaml%20on%20Linux%20and%20run%20with%20VS%20Code.ipynb)
 
 
-# Code examples
+# Code Examples
 Give some code examples to understand the basic knowledge and usage of OCaml.
 
 
@@ -14,7 +14,7 @@ Give some code examples to understand the basic knowledge and usage of OCaml.
 The notes of each CSI3120 lecture given by Prof. Amy Felty @ University of Ottawa.
 
 
-# Official documents
+# Official Documents
 [Emacs reference card](Emacs_ref_card.pdf) 
 
 [Tuareg reference ard](OCaml_Emacs_mode.pdf)
