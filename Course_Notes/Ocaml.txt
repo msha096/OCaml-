@@ -1,0 +1,108 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2020-09-18T17:40:22-04:00
+
+====== Ocaml ======
+Created Friday 18 September 2020
+
+
+===== TIPS: =====
+
+== How to compile OCaml: ==
+1. in terminal : direct to the path and : ocamlc xxx.ml, then you will see a new file ends with .cmo. To run the file, ocaml xxx.cmo.
+2. in Ocaml: open terminal  and go to the correspoing path by cd...... then type ocaml you see an interactive interface, you see the version of Ocaml. ## use "filename.ml;";;  or ## load "file.cmo";; to execute the compiled file
+3. Using Emacs  Esc-x type 'shell' to terminal,  type ocaml to (2).    
+
+== Basic Knowledge: ==
+在ocaml互动界面，如果是use或者load等指令 需要再加一个#， 如果是print_int或者其他ocaml代码，则不需要增加#。
+code example:
+let rec concatn s n = 
+  if n<=0 then
+	s
+  else
+	s ^ (concatn s (n-1))
+let x = 3
+let y = x * 2;;
+print_int x;;
+print_int y;;
+
+===== Course Note: =====
+
+== Sept 16th: ==
+
+1. type:
+ if bool then
+e1
+else
+e2
+Note: e1 and e2 must be in the same type!!!
+
+2. single quote 'c' is char type, double quotes"str" is string type
+
+3.Abstraction and abbreviation:
+
+local variable in let: (let ..in)  let... in is an experssion
+
+let x = 2 in 
+let y = x*x in 
+let z = y*x in
+z*y;;
+
+After the execution, we lose all these local variables.
+
+4. let without in  is declaration (top-level)
+let x = 3+3
+let y = x*2
+
+do not need to use(optional) ;; if next is another let declaration or some key word; if next is let..in experssion, then do need ;;
+
+5. rec is a mandatory keyword for recursive function, it does not hurt if the func is not recursive.
+
+== Sept 18th: ==
+1.binding varaiables to values:
+in OCaml, one varaiable has only one value, can not be changed.
+let x = 3
+let x = 4
+It happens to have two varaibles of the same name, does not mean we change the value of x.
+
+2.defining functions:
+let add_one (x:int) : int = 1 + x
+let function name (argument name : type of argument ) : type of result = expression that computers value produced by function. recursive functions begin with "let rec"
+
+3.ocaml里的func name或者variable name可以带' prime.
+
+4.define function with a local definition:
+let add_two' (x:int):int =
+  let add_one x' = 1+x' in
+	add_one (add one x)
+add_one 是local function definition, which is hidden from clients. 
+function definition如果没有type, OCaml can figure them out. 
+Note:
+let x' = 3
+let x' = 1+x'
+a new variable has the same name x' is assigned the value 1+3. 
+5. rule for type-checking functions: it is very important to have and use the correct typed functions(both arugument type and return type) 
+	e.g. munge : bool -> int -> string (两种理解，看视频 around 1h,slide 47)
+			 munge false: int -> string
+			 munge false 3 : string
+e.g. function works as argument
+ reference: https://www.cs.cornell.edu/courses/cs3110/2014sp/recitations/3/rec03.html
+(* Notice the type of twice is ((int -> int) * int) -> int.*)
+let twice ((f: int-> int),(x:int)): int = f (f x)
+let double (x:int): int = x*2
+let quad (x:int): int = twice (double,x);;
+print_int (quad 5);;
+
+6. data structure: tuples
+tuple can contain different types, and it can contain function
+e.g. let x = ("hi",3-2,true)
+val x: string * int * bool = ("hi",1,true)   * is star in the tuple,not multiply
+another e.g. let (x,y) = (2,4) in x + x + y
+→ substitue  2+2 + 4  and x is type int, y is type int 
+rules: if e1:t1 and e2:t2, then (e1,e2) : t1 * t2
+
+7. a type abbreviation by using type keword
+type point = float *  float  # every time we see point, it is replaced by float*float
+let keyword: define variable and function
+
+
