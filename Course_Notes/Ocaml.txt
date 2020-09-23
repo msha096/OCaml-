@@ -105,4 +105,74 @@ rules: if e1:t1 and e2:t2, then (e1,e2) : t1 * t2
 type point = float *  float  # every time we see point, it is replaced by float*float
 let keyword: define variable and function
 
+== Sept 23th ==
+**补充前面function的理解**
+
+let func (x:int):char= if x <0 then 'n' else 'p'
+  let func2 (x:int) (y:bool): int->char=
+	 if y then func    # func后面没有跟argument,因为func2的return type是int->char. (function is also data)
+	 else func2 x y
+
+let add (x:int) (y:int) : int = x + y
+val add : int -> int -> int = <fun>
+let c = add 3;;
+val c : int -> int = <fun> 
+c得到的是function
+# let y = c 4;;
+val y : int = 7
+--------------------
+1. unit, written as () means return nothing.  if a function only print, then  the return type is unit.
+
+2. pattern matching, 比如一个tuple  let t = (3,4.0,"as") , let (x,y,z) = t. 则xyz被分配t中的对应值
+也可以用 match t with
+					 | (x,y,z)
+type point = float * float
+p1 和p2是point类型,则可以==>
+match (p1,p2) with  
+| ( (x1,y1), (x2,y2))
+也可以用let:   let ((x1,y1),(x2,y2))=(p1,p2);;
+但是match 可以match很多可能性，使用| .
+
+3. options，代表着一些参数可以存在，也可以不存在。
+Some和None是创建optional value的构造函数。
+type point = float * float
+let slope (p1:point) (p2:point) : float option =    (*需要说明return type是option*)
+  let (x1,y1) = p1 in
+  let (x2,y2) = p2 in
+  let xd = x2 -. x1 in
+  if xd != 0.0 then
+	Some ((y2 -. y1) /. xd)                     (*需要用Some关键词表明type是float option;如果没有Some,则type是float,会造成type dismatch error*)
+  else
+	None
+
+使用returntype是带option的function时候，需要确认返回的值是some 还是none，
+e.g.:
+let print_slope (p1:point) (p2:point) : unit =
+  match slope p1 p2 with
+	Some s ->                                            (*The "Some s" pattern includes the variable s*)
+	  print_string ("Slope: " ^ string_of_float s)
+  | None ->
+	print_string "Vertical line.\n"
+总结：
+（1）如果function的输出为 type t option，construct使用 Some(...) None
+（2）如果input类型为t option, deconstruct 使用 match ... with  
+																											 | None -> ...
+																											 | Some s -> ...
+
+4. data type: list 
+t = [ ] empty list
+v :: vs   v followed by vs
+:: callls cons
+
+(1+2)::(3+4)::[] has a type int list
+或者 let l = [3;7];; 
+
+# [2]::[4;6]::[];;                          ⇒ (int list) list
+- : int list list = [[2]; [4; 6]]
+
+[2]::[3];;
+Error: This expression has type int but an expression was expected of type
+		 int list ===>需要在后面加上::[]
+another word: if e1: t and e2 : t list
+								 then (e1::e2) : t list
 
