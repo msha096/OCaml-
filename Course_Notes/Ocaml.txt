@@ -149,7 +149,7 @@ let slope (p1:point) (p2:point) : float option =    (*需要说明return type是
 e.g.:
 let print_slope (p1:point) (p2:point) : unit =
   match slope p1 p2 with
-	Some s ->                                            (*The "Some s" pattern includes the variable s*)
+  | Some s ->                                            (*The "Some s" pattern includes the variable s*)
 	  print_string ("Slope: " ^ string_of_float s)
   | None ->
 	print_string "Vertical line.\n"
@@ -168,7 +168,7 @@ v :: vs   v followed by vs
 或者 let l = [3;7];; 
 
 # [2]::[4;6]::[];;                          ⇒ (int list) list
-- : int list list = [[2]; [4; 6]]
+- : int list list = [ [2]; [4; 6] ]
 
 [2]::[3];;
 Error: This expression has type int but an expression was expected of type
@@ -176,3 +176,27 @@ Error: This expression has type int but an expression was expected of type
 another word: if e1: t and e2 : t list
 								 then (e1::e2) : t list
 
+
+== Sept 25th ==
+1. Write a function to return the head of a list
+let head (xs : int list) : int option =             (有可能是空的list,所以用option修饰)
+| [] -> None
+| hd :: _ -> Some head          (_ underscore 用法和python 一样，不caer的值。此处用Some) 
+并不是rec function
+
+2. | 是match里的separator，第一个| 是optional的
+
+3. (* zip function: if sub list are in different length, return None.
+otherwise, transpose the lsit
+zip [2; 3] [4; 5] == Some [(2,4); (3,5)]*)
+
+let rec zip (xs: int list) (ys: int list) : (int * int) list option = 
+  match (xs,ys) with 
+  | ([], []) -> Some []
+  | ([], y::ys') -> None
+  | (x::xs',[]) -> None
+  | (x::xs',y::ys') ->  match zip xs' ys' with
+						| Some zs -> Some((x,y)::zs)    (*the 'Some' before zs is pattern mathing the possible value*)
+						| None -> None                      (*the 'Some' before ((x,y)::zs) is key work paired with None*)
+
+4. Insertion sort in code file named sept25.ml
