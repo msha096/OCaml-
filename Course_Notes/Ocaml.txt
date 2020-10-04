@@ -12,6 +12,8 @@ Created Friday 18 September 2020
 1. in terminal : direct to the path and : ocamlc xxx.ml, then you will see a new file ends with .cmo. To run the file, ocaml xxx.cmo.
 2. in Ocaml: open terminal  and go to the correspoing path by cd...... then type ocaml you see an interactive interface, you see the version of Ocaml. ## use "filename.ml;";;  or ## load "file.cmo";; to execute the compiled file
 3. Using Emacs  Esc-x type 'shell' to terminal,  type ocaml to (2).    
+4. Printf.printf "%B" (3 < 4);;  
+5. 代码块内的普通语句间隔时使用单独的分号 ;    top-level之间的间隔需要两个分号 ;;
 
 == Basic Knowledge: ==
 在ocaml互动界面，如果是use或者load等指令 需要再加一个#， 如果是print_int或者其他ocaml代码，则不需要增加#。
@@ -175,6 +177,13 @@ Error: This expression has type int but an expression was expected of type
 		 int list ===>需要在后面加上::[]
 another word: if e1: t and e2 : t list
 								 then (e1::e2) : t list
+# let a = [3];;
+val a : int list = [3]
+# let b = [2];;
+val b : int list = [2]
+# a@b;;
+- : int list = [3; 2]
+
 
 
 == Sept 25th ==
@@ -200,3 +209,27 @@ let rec zip (xs: int list) (ys: int list) : (int * int) list option =
 						| None -> None                      (*the 'Some' before ((x,y)::zs) is key work paired with None*)
 
 4. Insertion sort in code file named sept25.ml
+
+
+== Sept 30th ==
+1. example codes are in higher_order.ml.
+higher-order function: function as input
+fun is keyword, define the function with no name (anonymous)=> fun x-> x+1  (means input x, output x+1)
+
+ways to clear, reusable code:
+1. higher-order function (use another function as a input argument)
+2. anoymous function ( in the first-class function, define an anonymous function as input)
+3. first-class function: input and output of an argument, most general way
+4. polymorphism ( use most general type, 'a 'b, let ocaml do type inference when call the function)
+
+
+2. user defined data types/ abstraction/ mutation (imperative programming)
+type point = float*float is type abbreviation, not type defination
+
+type color = B|Y|R ( in the file data_type.ml)
+this is used to define the data type , they can be used as option
+type shape = Circle of point * raidus | Square of point*side
+of is a keyword, means type Circle is in the form of point*radius.
+
+introduce and implement tree in OCaml. ( in the file inductive_data_tree.ml)
+Define tree data type, also give examples that tree with any type key and value.
