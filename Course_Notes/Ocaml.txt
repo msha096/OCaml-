@@ -233,3 +233,24 @@ of is a keyword, means type Circle is in the form of point*radius.
 
 introduce and implement tree in OCaml. ( in the file inductive_data_tree.ml)
 Define tree data type, also give examples that tree with any type key and value.
+
+
+== Oct 2nd: ==
+Reviewed the integer and natural number data type and rec function( integer can be negative, but natural number is 0,1,2,...)
+
+Review the tree related data type in OCaml, we define the type : 
+type 'x f = body
+arg f
+Which is different from other languages. OCaml takes types as functions: a function that take a type as an argument, produces a type as a result.
+
+Modules and abstract data types
+
+How to build a new abstract data type:
+1. signature : an interface (.mli file)
+2. strucutre: is an implementation
+3. functor: a parameterized module
+ https://lanqy.xyz/2018/07/15/getting_started4/
+
+How to use :
+1. use dot notation to refer to contents of Name.ml e.g.,  Name.x
+2. Open Name, get access to all the elements,  then just use x directly...
