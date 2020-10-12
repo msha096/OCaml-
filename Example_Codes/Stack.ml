@@ -19,7 +19,7 @@ module ListIntStack : INT_STACK =
   struct 
     type t = int list
     let empty () : t = []
-    let push (i:int) (s:t) : t = i ::s
+    let push (i:int) (s:t) : t = i ::s (* add the element to the first place*)
     let is_empty (s:t) = 
       match s with
       | [] -> true
@@ -27,11 +27,11 @@ module ListIntStack : INT_STACK =
     let pop (s:t) : t = 
       match s with
       | [] -> []
-      | _ :: tl -> tl
+      | _ :: tl -> tl (* return the stack without the first element*)
     let top (s:t) : int option = 
       match s with
       | [] -> None
-      | h::_ -> Some h
+      | h::_ -> Some h (* return the first element in the stack*) 
   end
 
 
@@ -39,6 +39,9 @@ module ListIntStack : INT_STACK =
 let s0 = ListIntStack.empty ()
 let s1 = ListIntStack.push 3 s0
 let s2 = ListIntStack.push 4 s1
+let s3 = ListIntStack.push 5 s2
+let t = ListIntStack.top s3
+(* val t : int option = Some 5 *)
 let i = ListIntStack.top s2
 (* i : int option = Some 4 *)
 let j = ListIntStack.top (ListIntStack.pop s2)
@@ -76,4 +79,28 @@ module ListStack : STACK =
     match s with
     | [] -> None
     | h::_ -> Some h
+  end
+
+
+
+(* imperative stack, with mutable ref*)
+
+module type IMP_STACK =
+ sig
+ type 'a stack
+ val empty : unit -> 'a stack
+ val push : 'a -> 'a stack -> unit
+ val pop : 'a stack -> 'a option
+ end
+
+module ImpStack : IMP_STACK =
+  struct
+  type 'a stack = ('a list) ref
+  let empty () : 'a stack = ref []
+  let push (x:'a) (s:'a stack) : unit =
+   s := x::(!s)
+  let pop (s:'a stack) : 'a option =
+   match !s with
+   | [] -> None
+   | h::t -> (s := t ; Some h)
   end

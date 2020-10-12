@@ -107,7 +107,7 @@ rules: if e1:t1 and e2:t2, then (e1,e2) : t1 * t2
 type point = float *  float  # every time we see point, it is replaced by float*float
 let keyword: define variable and function
 
-== Sept 23th ==
+== Sept 23th: option, list ==
 **补充前面function的理解**
 
 let func (x:int):char= if x <0 then 'n' else 'p'
@@ -157,10 +157,11 @@ let print_slope (p1:point) (p2:point) : unit =
 	print_string "Vertical line.\n"
 总结：
 （1）如果function的输出为 type t option，construct使用 Some(...) None
-（2）如果input类型为t option, deconstruct 使用 match ... with  
-																											 | None -> ...
-																											 | Some s -> ...
+（2）如果input类型为t option, deconstruct 使用 match ... with 
+																										   | None -> ...
+																										   | Some s -> ...
 
+ 
 4. data type: list 
 t = [ ] empty list
 v :: vs   v followed by vs
@@ -186,7 +187,7 @@ val b : int list = [2]
 
 
 
-== Sept 25th ==
+== Sept 25th: list ==
 1. Write a function to return the head of a list
 let head (xs : int list) : int option =             (有可能是空的list,所以用option修饰)
 | [] -> None
@@ -211,7 +212,7 @@ let rec zip (xs: int list) (ys: int list) : (int * int) list option =
 4. Insertion sort in code file named sept25.ml
 
 
-== Sept 30th ==
+== Sept 30th: higher order function, data,polymorphism ==
 1. example codes are in higher_order.ml.
 higher-order function: function as input
 fun is keyword, define the function with no name (anonymous)=> fun x-> x+1  (means input x, output x+1)
@@ -235,7 +236,7 @@ introduce and implement tree in OCaml. ( in the file inductive_data_tree.ml)
 Define tree data type, also give examples that tree with any type key and value.
 
 
-== Oct 2nd: ==
+== Oct 2nd: module ==
 Reviewed the integer and natural number data type and rec function( integer can be negative, but natural number is 0,1,2,...)
 
 Review the tree related data type in OCaml, we define the type : 
@@ -254,3 +255,64 @@ How to build a new abstract data type:
 How to use :
 1. use dot notation to refer to contents of Name.ml e.g.,  Name.x
 2. Open Name, get access to all the elements,  then just use x directly...
+
+
+== Oct 7th: mutation ==
+side effect of mutable variables...reasoning is hard
+Most functional programming still has side effects: printing, raising errors. Without printing, how you know the function is doing the right thing?
+Some algorithm and data structure need mutable state: hashtable,dfs....
+
+OCaml mutable references: 
+new type : t ref -> think of it's a pointer to a box that holds a t type value, and the content of this box can be read or written.
+to create a fresh box: ref 42 -> a int ref, allocates a new box with initial value 42 and return the pointer
+- : int ref = {contents = 42}
+
+let r = ref 42
+to read the content: !r ;;          returns - : int = 42
+(if r: t ref  then !r : t    type inference, and immutable if t is not a ref)
+to write t:= 5   returns nothing  - : unit = ()         重新赋值时返回值是unit   **important**
+see ref.ml for example
+when e1:unit, and e2:t, then (e1;e2) : t
+
+OCaml 函数里return最后一行代码的结果， 如果是print就返回unit，如果是type t 就返回type t 的value.所以代码顺序很重要。比如
+let p a = 
+  a + 2;
+  print_int a ;;
+p 4;;
+return type是unit
+let p a = 
+  print_int a ;
+  a + 2;;
+p 4;;
+return type是int: 6.
+
+alias : 
+let c = ref 0;; 
+let x = c;;
+x : = 42;;
+!c ;; (c is 42 now, ref is mutable, any change with x and c will be changed the ref object itself.)
+
+match ref时候，match content of it by match !c with
+
+Oct 9th
+more examples about mutable list in mutable.ml
+
+Mitchell context book content chapter 4:
+compiler vs interpreter:
+An interpreter combines translation and program execution
+A compiler translates the entire program into machine code before the program is run
+
+compiler phases: 
+1. lexical analysis:  scan from left to right and group input symbols into meaningful units called tokens
+2. syntax analysisL parsing, checking syntax error, the result is a parse tree
+3. semantic analysis: context information is used to augment the parse tree, differ from program semantics (i.e., program meaning)
+4. intermediate code generation:  it's hard to generate efficient code in one phase
+5. code optimization: different techniques are applied over and over to the intermidate representation
+6. code generation: convert the intermediate code into a target machine code; including choosing memory locations and registers for variables (efficient is very important)
+
+Some standard code optimization:
+common subexpression elimination
+copy propagation
+dead-code elimination
+loop optimizations
+in-lining function calls
