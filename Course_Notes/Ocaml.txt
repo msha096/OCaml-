@@ -392,3 +392,40 @@ f(3) y 3
 **Dynamic scope: **g (12)里的x+y使用的x是most recently created activation record, namely x = 4
 **Static Scope:** from the closest enclosing program block. Thus, x = 1
 Ocaml is static.
+
+
+== Nov 4th ==
+Control link (Dynamic link): Link to activation record of previous (calling) block
+The access link (A.K.A static link): Link to activation record of closest enclosing block in program text
+difference: control link depends on dynamic behavior of program, access link depends on static form of program text. Follow control link to pop out activation record.
+access link is always set to frame of closest enclosing lexical block. Use access link to find global variable.
+
+**First order function**
+**tail recursive:**
+let rec f x y =
+if x>y
+then x (* this is a tail call*)
+else f (2*x) y  (* this is not a tail call*)
+in (f 1 3) + 7
+**This is not tail recursive:**
+fact(n) = if n<= 1 then 1
+else n * fact(n-1)
+**Analyzed control link and return-result address for tail recursive function, and explained 4 optimization for tail recursive.**
+
+**Higher order function**
+1. functions are passed as argument
+2. functions are returned as function results
+
+Function Argument and Closures and access link for case 1.
+
+== Nov 6th: ==
+Closures are used to set the access pointer when a function returned from a nested scope is called. Function as parameter/results require closures.
+When functions are returned from nested scopes, activation record cannot be popped off the stack. (LIFO)
+
+**Control in Sequential Languages**
+exceptions, continuations, control of evaluation order
+ML(meta language) exceptions: declare exceptions before use
+In ocaml:
+declare: excepetion <name> of <type>
+raise: raise(<name> <parameters>)
+handler: try <exp1> with | <pattern> -> <exp2>
